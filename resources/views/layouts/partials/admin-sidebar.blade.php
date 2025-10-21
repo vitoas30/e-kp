@@ -15,9 +15,9 @@
     <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
         <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper">
             <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
-                <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
+                <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
                     <div class="menu-item">
-                        <a class="menu-link" href="{{ route('dashboard') }}">
+                        <a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <span class="menu-icon">
                                 <i class="ki-duotone ki-element-11 fs-2">
                                     <span class="path1"></span>
@@ -34,10 +34,10 @@
                             <span class="menu-heading fw-bold text-uppercase fs-7">Management</span>
                         </div>
                     </div>
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('admin.users.*') ? 'here show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
-                                <i class="ki-duotone ki-user">
+                                <i class="ki-duotone ki-user fs-2">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
@@ -47,7 +47,7 @@
                         </span>
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('admin.users.create') }}">
+                                <a class="menu-link {{ request()->routeIs('admin.users.create') ? 'active' : '' }}" href="{{ route('admin.users.create') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -55,11 +55,57 @@
                                 </a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('admin.users.index') }}">
+                                <a class="menu-link {{ request()->routeIs('admin.users.*') && !request()->routeIs('admin.users.create') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">List</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('admin.position.category.*') || request()->routeIs('admin.position.*') || request()->routeIs('admin.employee.type.*') || request()->routeIs('admin.allowance.*') ? 'here show' : '' }}">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-gear fs-2">
+                                    <i class="path1"></i>
+                                    <i class="path2"></i>
+                                </i>
+                            </span>
+                            <span class="menu-title">Master Organization</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.allowance.index') ? 'active' : '' }}" href="{{ route('admin.allowance.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Allowance</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.employee.type.index') ? 'active' : '' }}" href="{{ route('admin.employee.type.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Employee Type </span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.position.category.index') ? 'active' : '' }}" href="{{ route('admin.position.category.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Position Category </span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.position.index') ? 'active' : '' }}" href="{{ route('admin.position.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Position</span>
                                 </a>
                             </div>
                         </div>

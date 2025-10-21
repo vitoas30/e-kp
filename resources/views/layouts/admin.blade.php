@@ -31,6 +31,22 @@
 			.menu-link {
 				transition: background-color 0.3s ease;
 			}
+			.menu-link.active {
+				background-color: #0d6efd !important; /* Biru bootstrap */
+				color: #fff !important;
+				border-radius: 8px;
+			}
+
+			.menu-link.active .menu-title {
+				color: #fff !important;
+				font-weight: 600; /* biar lebih tebal */
+			}
+
+			.menu-link.active .menu-icon i {
+				color: #fff !important;
+				animation: none; /* matikan kedip, biar clean seperti contoh */
+			}
+
 			.menu-link:hover, .menu-link.active, .menu-link:focus {
 				background-color: #007bff;
 				color: white;
@@ -139,5 +155,75 @@
 		<script src="{{ asset('assets2/js/custom/utilities/modals/create-app.js') }}"></script>
 		<script src="{{ asset('assets2/js/custom/utilities/modals/new-target.js') }}"></script>
 		<script src="{{ asset('assets2/js/custom/utilities/modals/users-search.js') }}"></script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				if (typeof KTApp !== 'undefined') {
+					KTApp.init();
+				}
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				// ✅ perbaikan: sebelumnya tertulis $.document.ready (salah)
+				
+				function formatRupiah(angka) {
+					if (!angka) return '';
+					var number_string = angka.replace(/[^,\d]/g, ''),
+						split = number_string.split(','),
+						sisa = split[0].length % 3,
+						rupiah = split[0].substr(0, sisa),
+						ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+					if (ribuan) {
+						var separator = sisa ? '.' : '';
+						rupiah += separator + ribuan.join('.');
+					}
+
+					return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+				}
+
+				function parseRupiah(rupiah) {
+					if (!rupiah) return 0;
+					return parseInt(rupiah.replace(/\./g, '').replace(/,/g, '')) || 0;
+				}
+
+				// Format saat mengetik
+				$('#salary_display').on('input', function() {
+					let value = $(this).val();
+					let formatted = formatRupiah(value);
+					$(this).val(formatted);
+					$('#salary').val(parseRupiah(formatted));
+				});
+
+				// Format ulang saat blur
+				$('#salary_display').on('blur', function() {
+					let value = $(this).val();
+					let formatted = formatRupiah(value);
+					$(this).val(formatted);
+					$('#salary').val(parseRupiah(formatted));
+				});
+
+				// Tangani event paste
+				$('#salary_display').on('paste', function() {
+					setTimeout(() => {
+						let value = $(this).val();
+						let formatted = formatRupiah(value);
+						$(this).val(formatted);
+						$('#salary').val(parseRupiah(formatted));
+					}, 10);
+				});
+
+				// Cegah karakter non-angka
+				$('#salary_display').on('keypress', function(e) {
+					const charCode = e.which ? e.which : e.keyCode;
+					// Hanya izinkan angka (0–9)
+					if (charCode < 48 || charCode > 57) {
+						e.preventDefault();
+					}
+				});
+			});
+		</script>
+		@stack('scripts')
 	</body>
 </html>

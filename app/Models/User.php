@@ -70,4 +70,32 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function allowances(): BelongsToMany
+    {
+        return $this->belongsToMany(UserAllowance::class);
+    }
+
+    public function employeeType()
+    {
+        return $this->belongsTo(EmployeeType::class, 'employee_type_id');
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class, 'position_id');
+    }
+
+    public function contracts()
+    {
+        return $this->hasOne(EmployeeContract::class, 'user_id', 'id');
+    }
+
+    public function latestContract()
+    {
+        return $this->hasOne(EmployeeContract::class, 'user_id', 'id')
+            ->orderByRaw('is_active DESC')
+            ->orderBy('id', 'DESC')
+            ->limit(1);
+    }
 }

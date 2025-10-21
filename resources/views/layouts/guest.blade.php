@@ -56,14 +56,23 @@
                         <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
                             src="{{ asset('assets/media/auth/agency-dark.png') }}" alt="Logo Dark" />
 
-                        <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">
+                        <h1 class="theme-dark-show text-gray-800 fs-2qx fw-bold text-center mb-7">
                             Selamat Datang di E-KP
                         </h1>
-                        <div class="text-dark-600 fs-base text-center fw-semibold mb-10">
+                        <h1 class="theme-light-show text-light fs-2qx fw-bold text-center mb-7">
+                            Selamat Datang di E-KP
+                        </h1>
+                        <div class="theme-light-show text-light fs-base text-center fw-semibold mb-10">
+                            Aplikasi manajemen kerja perkantoran digital yang efisien dan produktif.
+                        </div>
+                        <div class=" theme-dark-show text-gray-800 fs-base text-center fw-semibold mb-10">
                             Aplikasi manajemen kerja perkantoran digital yang efisien dan produktif.
                         </div>
 
-                        <a href="{{ url('/') }}" class="btn btn-outline btn-outline-dashed btn-outline-dark fw-semibold">
+                        <a href="{{ url('/') }}" class="theme-light-show btn btn-outline btn-outline-dashed btn-outline-light fw-semibold">
+                            ← Back to Landing Page
+                        </a>
+                        <a href="{{ url('/') }}" class="theme-dark-show btn btn-outline btn-outline-dashed btn-outline-light-dark fw-semibold">
                             ← Back to Landing Page
                         </a>
                     </div>
