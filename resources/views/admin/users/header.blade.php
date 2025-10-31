@@ -8,12 +8,12 @@
             </div>
             <div class="flex-grow-1">
                 <h3 class="fw-semibold">{{$user->name}}</h3>
-                <h6 class="text-body-secondary fw-semibold">{{$user->position->name}}</h6>
+                <h6 class="text-body-secondary fw-semibold">{{$user->position?->name}}</h6>
                 <div class="d-flex gap-3 mt-3 flex-wrap">
                     <div class="d-flex justify-content-center align-middle content-center gap-2 text-secondary">
                         <i class="ki-solid ki-pin"></i>
                         <h6 class="fw-semibold">
-                            {{$user->employeeType->name}}
+                            {{$user->employeeType?->name}}
                         </h6>
                     </div>
                     <div class="d-flex justify-content-center align-middle content-center gap-2 text-secondary">
@@ -24,18 +24,18 @@
                 <div class="d-flex flex-wrap fw-semibold fs-8 mb-4 pe-2">
                     <div class="d-flex flex-column">
                         <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-                            Start Date {{$user->employeeType->name}}
+                            Start Date {{$user->employeeType?->name}}
                         </a>
                         <a href="#" class="d-flex align-items-center text-success text-hover-primary me-5 mb-2">
-                            {{$user->latestContract->start_date != null ? date('d F Y', strtotime($user->latestContract->start_date)) : ''}}
+                            {{$user->latestContract?->start_date != null ? date('d F Y', strtotime($user->latestContract?->start_date)) : ''}}
                         </a>
                     </div>
                     <div class="d-flex flex-column">
                         <a href="#" class="d-flex align-items-center text-gray-500 text-hover-primary me-5 mb-2">
-                            End Date {{$user->employeeType->name}}
+                            End Date {{$user->employeeType?->name}}
                         </a>
                         <a href="#" class="d-flex align-items-center text-success text-hover-primary me-5 mb-2">
-                            {{$user->latestContract->end_date != null ? date('d F Y', strtotime($user->latestContract->end_date)) : ''}}
+                            {{$user->latestContract?->end_date != null ? date('d F Y', strtotime($user->latestContract?->end_date)) : ''}}
                         </a>
                     </div>
                 </div>
@@ -55,6 +55,6 @@
         <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.users.allowance', $user->id) ? 'active' : '' }}" href="{{ route('admin.users.allowance', $user->id) }}">Info Allowance</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-active-primary py-5 me-6" href="#">Change Password</a>
+        <a class="nav-link text-active-primary py-5 me-6 {{ request()->routeIs('admin.users.change.password', $user->id) ? 'active' : '' }}" href="{{ route('admin.users.change.password', $user->id) }}">Change Password</a>
     </li>
 </ul>

@@ -58,7 +58,7 @@
                     @include('admin.users.header')
                     <div class="card-toolbar">
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEmployeeTypeModal">
+                            <a href="javascript:void(0);" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAllowanceModal">
                                 <i class="ki-duotone ki-plus fs-2"></i>
                                 Add Allowance
                             </a>
@@ -85,13 +85,13 @@
                                         </a>
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-5 w-125px py-4" data-kt-menu="true">
                                             <div class="menu-item px-3">
-                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editEmployeeTypeModal{{ $detail->id }}" class="menu-link px-3 text-warning">
+                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editAllowenceModal{{ $detail->id }}" class="menu-link px-3 text-warning">
                                                     <i class="ki-duotone ki-pencil fs-5 me-1 text-warning"><span class="path1"></span><span class="path2"></span></i>
                                                     Edit
                                                 </a>
                                             </div>
                                             <div class="menu-item px-3">
-                                                <a href="javascript:void(0);" class="menu-link px-3 text-danger deleteAlert" title="Delete" data-url="{{route('admin.position.destroy', $detail->id)}}">
+                                                <a href="javascript:void(0);" class="menu-link px-3 text-danger deleteAlert" title="Delete" data-url="{{route('admin.users.allowance.destroy', $detail->id)}}">
                                                     <i class="ki-duotone ki-trash fs-5 text-danger me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                                                     Delete
                                                 </a>
@@ -108,74 +108,122 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addEmployeeTypeModal" tabindex="-1" aria-labelledby="addEmployeeTypeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addAllowanceModal" tabindex="-1" aria-labelledby="addAllowanceModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content shadow-lg rounded-3">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white" id="addEmployeeTypeModalLabel">
+                    <h5 class="modal-title text-white" id="addAllowanceModalLabel">
                         <i class="ki-duotone ki-plus fs-2 me-2 text-white"><span class="path1"></span><span class="path2"></span></i>
                         Add Allowance
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <form action="{{ route('admin.users.employee.type', $user->id) }}" method="POST">
+                <form action="{{ route('admin.users.allowance.add', $user->id) }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-4">
-                            <label for="employee_type_id_add" class="form-label fw-semibold required">Allowance</label>
-                            <select id="employee_type_id_add" name="employee_type_id" class="form-select" data-placeholder="Select allowance" multiple required> 
+                            <label for="allowance_id_add" class="form-label fw-semibold required">Allowance</label>
+                            <select id="allowance_id_add" name="allowance_id" class="form-select" data-placeholder="Select allowance" required> 
+                                <option value="" disabled selected>Select Allowance</option>
                                 @foreach ($allowances as $allowance)
-                                    <option value="{{ $allowance->id }}" {{ old('employee_type_id') == $allowance->id ? 'selected' : '' }}>
+                                    <option value="{{ $allowance->id }}" {{ old('allowance_id') == $allowance->id ? 'selected' : '' }}>
                                         {{ $allowance->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="position_id" class="form-label fw-semibold required">Salary</label>
+                            <label for="amount" class="form-label fw-semibold">Amount</label>
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>
                                 <input
                                     type="text"
-                                    name="salary_display"
+                                    name="amount_display"
                                     id="salary_display"
                                     class="form-control"
-                                    placeholder="Enter Salary"
-                                    value="{{ old('salary') ? number_format((int) old('salary'), 0, ',', '.') : ($user->salary ? number_format((int) $user->salary, 0, ',', '.') : '') }}"
-                                    required
+                                    placeholder="Enter Amount"
+                                    value="{{ old('amount') ? number_format((float) old('amount'), 0, ',', '.') : '' }}"
                                 >
                             </div>
-                            <input type="hidden" name="salary" id="salary" value="{{ old('salary') }}">
+                            <input type="hidden" name="amount" id="salary" value="{{ old('amount') }}">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">
                             <i class="ki-duotone ki-check fs-2"></i>
-                            Save Employee Type
+                            Save Allowance
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    @foreach($allowancesStatus as $detail)
+        <div class="modal fade" id="editAllowenceModal{{ $detail->id }}" tabindex="-1" aria-labelledby="editAllowenceModalLabel{{ $detail->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg rounded-3">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title text-white" id="editAllowenceModalLabel{{ $detail->id }}">
+                            <i class="ki-duotone ki-pencil fs-2 me-2 text-white"><span class="path1"></span><span class="path2"></span></i>
+                            Edit Allowance
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('admin.users.allowance.update', $detail->id) }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="mb-4">
+                                <label for="allowance_{{ $detail->id }}" class="form-label fw-semibold required">Allowance</label>
+                                <input type="text" name="allowance" id="allowance_{{ $detail->id }}" value="{{ $detail->allowance->name ?? 'N/A' }}" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount_display_{{ $detail->id }}" class="form-label fw-semibold">Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input
+                                        type="text"
+                                        name="amount_display"
+                                        id="amount_display_{{ $detail->id }}"
+                                        class="form-control amount-display-input"
+                                        placeholder="Enter Amount"
+                                        value="{{ old('amount', $detail->custom_amount ? number_format((float) $detail->custom_amount, 0, ',', '.') : '') }}"
+                                        data-target="amount_{{ $detail->id }}"
+                                    >
+                                </div>
+                                <input type="hidden" name="amount" id="amount_{{ $detail->id }}" value="{{ old('amount', $detail->custom_amount) }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ki-duotone ki-check fs-2"></i>
+                                Save Allowance
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @push('scripts')
 <script>
     "use strict";
     $(document).ready(function() {
-        if ($('#employee_type_id_add').length) {
-            if ($('#employee_type_id_add').hasClass("select2-hidden-accessible")) {
-                $('#employee_type_id_add').select2('destroy');
+        if ($('#allowance_id_add').length) {
+            if ($('#allowance_id_add').hasClass("select2-hidden-accessible")) {
+                $('#allowance_id_add').select2('destroy');
             }
             
-            $('#employee_type_id_add').select2({
+            $('#allowance_id_add').select2({
                 placeholder: 'Pilih Employee Type',
                 allowClear: true,
                 minimumResultsForSearch: 0,
                 width: '100%',
-                dropdownParent: $('#addEmployeeTypeModal'),
+                dropdownParent: $('#addAllowanceModal'),
                 escapeMarkup: function(markup) { return markup; },
                 templateResult: function(data) {
                     return data.text;
@@ -266,7 +314,7 @@
                     if (result.isConfirmed) {
                         // Kirim form DELETE
                         const form = document.createElement('form');
-                        form.method = 'POST';
+                        form.method = 'GET';
                         form.action = url;
                         
                         const csrfToken = document.createElement('input');

@@ -80,11 +80,11 @@
                             </tr>
                             <tr>
                                 <td>Job Category</td>
-                                <td>: {{$user->position->category->name}}</td>
+                                <td>: {{$user->position?->category?->name}}</td>
                             </tr>
                             <tr>
                                 <td>Position</td>
-                                <td>: {{$user->position->name}}</td>
+                                <td>: {{$user->position?->name}}</td>
                             </tr>
                             <tr>
                                 <td>Salary</td>

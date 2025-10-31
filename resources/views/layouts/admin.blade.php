@@ -224,6 +224,72 @@
 				});
 			});
 		</script>
+		<script>
+			$(document).ready(function() {
+				function formatRupiahEdit(angka) {
+					if (!angka) return '';
+					var number_string = angka.replace(/[^,\d]/g, ''),
+						split = number_string.split(','),
+						sisa = split[0].length % 3,
+						rupiah = split[0].substr(0, sisa),
+						ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+					if (ribuan) {
+						var separator = sisa ? '.' : '';
+						rupiah += separator + ribuan.join('.');
+					}
+
+					return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+				}
+
+				function parseRupiahEdit(rupiah) {
+					if (!rupiah) return 0;
+					return parseInt(rupiah.replace(/\./g, '').replace(/,/g, '')) || 0;
+				}
+
+				// Apply to all amount display inputs
+				$('.amount-display-input').each(function() {
+					const $displayInput = $(this);
+					const targetId = $displayInput.data('target');
+					const $hiddenInput = $('#' + targetId);
+
+					// Format saat mengetik
+					$displayInput.on('input', function() {
+						let value = $(this).val();
+						let formatted = formatRupiahEdit(value);
+						$(this).val(formatted);
+						$hiddenInput.val(parseRupiahEdit(formatted));
+					});
+
+					// Format ulang saat blur
+					$displayInput.on('blur', function() {
+						let value = $(this).val();
+						let formatted = formatRupiahEdit(value);
+						$(this).val(formatted);
+						$hiddenInput.val(parseRupiahEdit(formatted));
+					});
+
+					// Tangani event paste
+					$displayInput.on('paste', function() {
+						setTimeout(() => {
+							let value = $(this).val();
+							let formatted = formatRupiahEdit(value);
+							$(this).val(formatted);
+							$hiddenInput.val(parseRupiahEdit(formatted));
+						}, 10);
+					});
+
+					// Cegah karakter non-angka
+					$displayInput.on('keypress', function(e) {
+						const charCode = e.which ? e.which : e.keyCode;
+						// Hanya izinkan angka (0–9)
+						if (charCode < 48 || charCode > 57) {
+							e.preventDefault();
+						}
+					});
+				});
+			});
+		</script>
 		@stack('scripts')
 	</body>
 </html>

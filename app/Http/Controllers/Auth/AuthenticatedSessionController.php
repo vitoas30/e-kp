@@ -31,6 +31,15 @@ class AuthenticatedSessionController extends Controller
         request()->session()->regenerate();
 
         // Determine redirect URL based on user role
+        if(Auth::user()->status != 'active'){
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return response()->json([
+                'success' => false,
+                'message' => 'Your account is inactive. Please contact the administrator.',
+            ], 403);
+        }
         $redirectUrl = route('dashboard');
         
         if (Auth::user()->hasRole('admin')) {

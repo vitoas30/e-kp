@@ -96,6 +96,22 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
+    public function addAllowance(Request $request, $id)
+    {
+        $allowances = new UserAllowance();
+        $allowances->user_id = $id;
+        $allowances->allowance_id = $request->allowance_id;
+        if($request->amount != null){
+            $allowances->custom_amount = str_replace(['.', ','], ['', '.'], $request->amount);
+        } else {
+            $type = Allowance::where('id', $request->allowance_id)->first();
+            $allowances->custom_amount = str_replace(['.', ','], ['', '.'], $type->amount);
+        }
+        $allowances->save();
+
+        return redirect()->route('admin.users.allowance', $id)->with('success', 'User updated successfully.');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -107,6 +123,19 @@ class UserController extends Controller
             ->select('positions.*')
             ->get();
         return view('admin.users.detail', compact('user', 'positions'));
+    }
+    
+    /**
+     * Display the specified resource.
+     */
+    public function password(string $id)
+    {
+        $user = User::findOrFail($id);
+        $positions = Position::with('category')->whereHas('category')->join('position_categories', 'positions.category_id', '=', 'position_categories.id')
+            ->orderBy('position_categories.name', 'asc')
+            ->select('positions.*')
+            ->get();
+        return view('admin.users.password', compact('user', 'positions'));
     }
     
     /**
@@ -247,10 +276,12 @@ class UserController extends Controller
             'is_active' => 'required|in:0,1',
         ]);
 
-        if($request->start_date != null){
-            $request->validate([
-                'end_date' => 'date|after_or_equal:start_date',
-            ]);
+        if($request->start_date != $employeeTypes->start_date){
+            if($request->start_date != null){
+                $request->validate([
+                    'end_date' => 'date|after_or_equal:start_date',
+                ]);
+            }
         }
 
         
@@ -277,6 +308,34 @@ class UserController extends Controller
         return redirect()->route('admin.users.employee', $user->id)->with('success', 'User updated successfully.');
     }
 
+    public function updateAllowance(Request $request, $id)
+    {
+        $allowances = UserAllowance::findOrFail($id);
+        $user = User::findOrFail($allowances->user_id);
+        if($request->amount != null){
+            $allowances->custom_amount = $request->amount;
+        } else {
+            $type = Allowance::where('id', $allowances->allowance_id)->first();
+            $allowances->custom_amount = str_replace(['.', ','], ['', '.'], $type->amount);
+        }
+        $allowances->save();
+
+        return redirect()->route('admin.users.allowance', $user->id)->with('success', 'User updated successfully.');
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->route('admin.users.change.password', $user->id)->with('success', 'User password updated successfully.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -285,5 +344,29 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function destroyEmployeeType($id)
+    {
+        $employeeType = EmployeeContract::findOrFail($id);
+        $user = User::findOrFail($employeeType->user_id);
+        $employeeStatusActive = EmployeeContract::where('user_id', $user->id)->first();
+        if($employeeStatusActive){
+            $employeeStatusActive->is_active = true;
+            $employeeStatusActive->save();
+
+            $user->employee_type_id = $employeeStatusActive->employee_type_id;
+            $user->save();
+        }
+        $employeeType->delete();
+        return redirect()->route('admin.users.employee', $user->id)->with('success', 'User employee type deleted successfully.');
+    }
+
+    public function destroyAllowance($id)
+    {
+        $allowances = UserAllowance::findOrFail($id);
+        $user = User::findOrFail($allowances->user_id);
+        $allowances->delete();
+        return redirect()->route('admin.users.allowance', $user->id)->with('success', 'User allowance deleted successfully.');
     }
 }

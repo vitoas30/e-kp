@@ -99,7 +99,7 @@
                                                 </a>
                                             </div>
                                             <div class="menu-item px-3">
-                                                <a href="javascript:void(0);" class="menu-link px-3 text-danger deleteAlert" title="Delete" data-url="{{route('admin.position.destroy', $detail->id)}}">
+                                                <a href="javascript:void(0);" class="menu-link px-3 text-danger deleteAlert" title="Delete" data-url="{{route('admin.users.employee.type.destroy', $detail->id)}}">
                                                     <i class="ki-duotone ki-trash fs-5 text-danger me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                                                     Delete
                                                 </a>
@@ -366,7 +366,7 @@
                     if (result.isConfirmed) {
                         // Kirim form DELETE
                         const form = document.createElement('form');
-                        form.method = 'POST';
+                        form.method = 'GET';
                         form.action = url;
                         
                         const csrfToken = document.createElement('input');
