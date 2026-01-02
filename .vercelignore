@@ -1,7 +1,0 @@
-/node_modules
-/tests
-/storage/logs
-/storage/framework/cache
-/storage/framework/sessions
-.env
-.gitphp artisan optimize:clear
