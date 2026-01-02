@@ -6,7 +6,7 @@ use App\Enums\MethodEnums;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\Project;
-use App\Models\SubMenu;
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +22,9 @@ class TaskController extends Controller
         $progressPercentage = Task::where('project_id', $id)->avg('progress');
         $completedTasks = Task::where('project_id', $id)->where('status', 'completed')->count();
         $inProgressTasks = Task::where('project_id', $id)->where('status', 'in_progress')->count();
-        $create = SubMenu::where('name', MethodEnums::POST)->where('position_id', Auth::user()->position->category_id)->exists();
-        $update = SubMenu::where('name', MethodEnums::PUT)->where('position_id', Auth::user()->position->category_id)->exists();
-        $delete = SubMenu::where('name', MethodEnums::DELETE)->where('position_id', Auth::user()->position->category_id)->exists();
+        $create = Permission::where('name', MethodEnums::POST)->where('position_id', Auth::user()->position->category_id)->exists();
+        $update = Permission::where('name', MethodEnums::PUT)->where('position_id', Auth::user()->position->category_id)->exists();
+        $delete = Permission::where('name', MethodEnums::DELETE)->where('position_id', Auth::user()->position->category_id)->exists();
         return view('user.task.index', compact('tasks','project', 'create', 'update', 'delete', 'users', 'totalTasks', 'progressPercentage', 'completedTasks', 'inProgressTasks'));
     }
 
@@ -36,9 +36,9 @@ class TaskController extends Controller
         $progressPercentage = Task::where('project_id', $id)->where('assigned_to', Auth::user()->id)->avg('progress');
         $completedTasks = Task::where('project_id', $id)->where('assigned_to', Auth::user()->id)->where('status', 'completed')->count();
         $inProgressTasks = Task::where('project_id', $id)->where('assigned_to', Auth::user()->id)->where('status', 'in_progress')->count();
-        $create = SubMenu::where('name', MethodEnums::POST)->where('position_id', Auth::user()->position->category_id)->exists();
-        $update = SubMenu::where('name', MethodEnums::PUT)->where('position_id', Auth::user()->position->category_id)->exists();
-        $delete = SubMenu::where('name', MethodEnums::DELETE)->where('position_id', Auth::user()->position->category_id)->exists();
+        $create = Permission::where('name', MethodEnums::POST)->where('position_id', Auth::user()->position->category_id)->exists();
+        $update = Permission::where('name', MethodEnums::PUT)->where('position_id', Auth::user()->position->category_id)->exists();
+        $delete = Permission::where('name', MethodEnums::DELETE)->where('position_id', Auth::user()->position->category_id)->exists();
         return view('user.task.my-task', compact('tasks', 'project', 'create', 'update', 'delete', 'totalTasks', 'progressPercentage', 'completedTasks', 'inProgressTasks'));
     }
 
@@ -60,6 +60,19 @@ class TaskController extends Controller
         $task->created_by = Auth::user()->id;
         $task->save();
 
+        // Notify Assigned User
+        if ($request->assign_to) {
+            $assignee = User::find($request->assign_to);
+            if ($assignee && $assignee->id != Auth::id()) {
+                $assignee->notify(new \App\Notifications\SystemNotification(
+                    'New Task Assigned',
+                    "You have a new task: '{$task->name}'.",
+                    'warning',
+                    route('user.tasks.my-task', $task->project_id)
+                ));
+            }
+        }
+
         return redirect()->route('user.tasks.index', $request->project)->with('success', 'Task created successfully.');
     }
 
@@ -80,6 +93,19 @@ class TaskController extends Controller
         $task->status = $request->status;
         $task->updated_by = Auth::user()->id;
         $task->save();
+        
+        // Notify Assigned User if changed
+        if ($task->wasChanged('assigned_to')) {
+            $assignee = User::find($request->assign_to);
+            if ($assignee && $assignee->id != Auth::id()) {
+                $assignee->notify(new \App\Notifications\SystemNotification(
+                    'Task Assignment',
+                    "You have been assigned to task: '{$task->name}'.",
+                    'warning', // Warning color used for tasks/deadlines
+                    route('user.tasks.my-task', $task->project_id)
+                ));
+            }
+        }
 
         return redirect()->route('user.tasks.index', $request->project)->with('success', 'Task updated successfully.');
     }

@@ -21,7 +21,9 @@
                         <br/>
                         Tingkatkan produktivitas dan sederhanakan alur kerja dengan platform kami.
                     </p>
+                    @guest
                     <a href="{{ route('register') }}" class="btn btn-primary">Mulai Sekarang</a>
+                    @endguest
 
                     <div class="mt-2">
                         <div class="d-flex flex-center flex-wrap position-relative px-5">
@@ -148,52 +150,72 @@
                 <h3 class="fs-2hx text-gray-900 mb-5">Karyawan Terbaik Bulan Ini</h3>
                 <div class="fs-5 text-muted fw-bold">Apresiasi bagi individu dengan kinerja dan kontribusi luar biasa.</div>
             </div>
-            <div class="row g-10">
-                <!-- Employee 2 -->
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        <div class="position-relative d-inline-block">
-                            <span class="badge badge-circle badge-light-warning fw-bold p-4 fs-3 position-absolute top-0 start-100 translate-middle">2</span>
-                            <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('assets/media/avatars/300-2.jpg')"></div>
-                        </div>
-                        <div class="mb-0">
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-3">Siti Nurbaya</a>
-                            <div class="text-muted fs-6 fw-semibold mt-1">Sekretaris</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Employee 1 -->
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        <div class="position-relative d-inline-block">
-                            <span class="badge badge-circle badge-light-success fw-bold p-5 fs-1 position-absolute top-0 start-100 translate-middle">1</span>
-                            <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('assets/media/avatars/300-1.jpg')"></div>
-                        </div>
-                        <div class="mb-0">
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-3">Ahmad Subarjo</a>
-                            <div class="text-muted fs-6 fw-semibold mt-1">Staf Administrasi</div>
+            <div class="row g-10 justify-content-center">
+                @if(isset($bestEmployees) && $bestEmployees->count() > 0)
+                    <!-- Rank 2 (Left) -->
+                    @if($bestEmployees->count() >= 2)
+                    <div class="col-lg-4 order-2 order-lg-1">
+                        <div class="text-center">
+                            <div class="position-relative d-inline-block">
+                                <span class="badge badge-circle badge-light-warning fw-bold p-4 fs-3 position-absolute top-0 start-100 translate-middle">2</span>
+                                <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-cover bgi-position-center" 
+                                     style="background-image:url('https://ui-avatars.com/api/?name={{ urlencode($bestEmployees[1]->name) }}&background=FFC700&color=fff&size=200')"></div>
+                            </div>
+                            <div class="mb-0">
+                                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-3">{{ $bestEmployees[1]->name }}</a>
+                                <div class="text-muted fs-6 fw-semibold mt-1">{{ $bestEmployees[1]->position->name ?? 'Employee' }}</div>
+                                <div class="text-success fs-7 fw-bold mt-1">{{ $bestEmployees[1]->completed_ontime_count }} Tasks Completed</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Employee 3 -->
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        <div class="position-relative d-inline-block">
-                            <span class="badge badge-circle badge-light-primary fw-bold p-4 fs-3 position-absolute top-0 start-100 translate-middle">3</span>
-                            <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center" style="background-image:url('assets/media/avatars/300-5.jpg')"></div>
-                        </div>
-                        <div class="mb-0">
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-3">Budi Santoso</a>
-                            <div class="text-muted fs-6 fw-semibold mt-1">Staf Keuangan</div>
+                    @endif
+
+                    <!-- Rank 1 (Center) -->
+                    @if($bestEmployees->count() >= 1)
+                    <div class="col-lg-4 order-1 order-lg-2">
+                        <div class="text-center transform-scale-110"> <!-- Optional: Make it slightly bigger -->
+                            <div class="position-relative d-inline-block">
+                                <span class="badge badge-circle badge-light-success fw-bold p-5 fs-1 position-absolute top-0 start-100 translate-middle">1</span>
+                                <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-cover bgi-position-center shadow" 
+                                     style="background-image:url('https://ui-avatars.com/api/?name={{ urlencode($bestEmployees[0]->name) }}&background=50CD89&color=fff&size=200')"></div>
+                            </div>
+                            <div class="mb-0">
+                                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-2">{{ $bestEmployees[0]->name }}</a>
+                                <div class="text-muted fs-5 fw-semibold mt-1">{{ $bestEmployees[0]->position->name ?? 'Employee' }}</div>
+                                <div class="text-success fs-6 fw-bold mt-1">{{ $bestEmployees[0]->completed_ontime_count }} Tasks Completed</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    @endif
+
+                    <!-- Rank 3 (Right) -->
+                    @if($bestEmployees->count() >= 3)
+                    <div class="col-lg-4 order-3 order-lg-3">
+                        <div class="text-center">
+                            <div class="position-relative d-inline-block">
+                                <span class="badge badge-circle badge-light-primary fw-bold p-4 fs-3 position-absolute top-0 start-100 translate-middle">3</span>
+                                <div class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-cover bgi-position-center" 
+                                     style="background-image:url('https://ui-avatars.com/api/?name={{ urlencode($bestEmployees[2]->name) }}&background=009EF7&color=fff&size=200')"></div>
+                            </div>
+                            <div class="mb-0">
+                                <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-3">{{ $bestEmployees[2]->name }}</a>
+                                <div class="text-muted fs-6 fw-semibold mt-1">{{ $bestEmployees[2]->position->name ?? 'Employee' }}</div>
+                                <div class="text-success fs-7 fw-bold mt-1">{{ $bestEmployees[2]->completed_ontime_count }} Tasks Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                @else
+                    <div class="col-12 text-center">
+                        <p class="text-muted fs-5">Data kinerja karyawan bulan ini belum tersedia.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 
     <!-- Call to Action Section -->
-    <div class="mb-lg-n15 position-relative z-index-2">
+    {{-- <div class="mb-lg-n15 position-relative z-index-2">
         <div class="container">
             <div class="card" style="filter: drop-shadow(0px 0px 40px rgba(68, 81, 96, 0.08))">
                 <div class="card-body p-lg-20">
@@ -205,15 +227,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Footer Section -->
     <div class="mt-20">
-        <div class="landing-curve landing-dark-color">
+        {{-- <div class="landing-curve landing-dark-color">
             <svg viewBox="15 12 1470 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 11C3.93573 11.3356 7.85984 11.6689 11.7725 12H1488.16C1492.1 11.6689 1496.04 11.3356 1500 11V12H1488.16C913.668 60.3476 586.282 60.6117 11.7725 12H0V11Z" fill="currentColor"></path>
             </svg>
-        </div>
+        </div> --}}
         <div class="landing-dark-bg pt-20">
             <div class="container">
                 <div class="d-flex flex-column flex-md-row flex-stack py-7 py-lg-10">

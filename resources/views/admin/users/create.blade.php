@@ -115,7 +115,7 @@
                                                 <span class="path2"></span>
                                             </i>
                                         </span>
-                                        <input type="number" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{ old("phone") }}"/>
+                                        <input type="number" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{ old('phone') }}"/>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column mb-8 fv-row">
@@ -159,10 +159,10 @@
                                 </div>
                                 <div class="d-flex flex-column mb-8 fv-row">
                                     <label for="allowance_id" class="form-label fw-semibold required">Allowance</label>
-                                    <select id="allowance_id" class="form-control form-select mb-2" data-control="select2" data-placeholder="Select allowance" name="allowance_id[]" multiple/>
+                                    <select id="allowance_id" class="form-control form-select mb-2" data-control="select2" data-placeholder="Select allowance" name="allowance_id[]" multiple>
                                         <option></option>
                                         @foreach ($allowances as $allowance)
-                                            <option value="{{ $allowance->id }}" {{ old('allowance_id') == $allowance->id ? 'selected' : '' }}>
+                                            <option value="{{ $allowance->id }}" {{ in_array($allowance->id, old('allowance_id', [])) ? 'selected' : '' }}>
                                                 {{ $allowance->name }}
                                             </option>
                                         @endforeach

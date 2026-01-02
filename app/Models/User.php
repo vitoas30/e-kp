@@ -98,4 +98,9 @@ class User extends Authenticatable
             ->orderBy('id', 'DESC')
             ->limit(1);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
 }

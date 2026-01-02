@@ -4,7 +4,7 @@
 <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
     <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Sub Menu</h1>
+            <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Permission</h1>
             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                 <li class="breadcrumb-item text-muted">
                     <a href="{{route('admin.dashboard')}}" class="text-muted text-hover-primary">Dashboard</a>
@@ -12,7 +12,7 @@
                 <li class="breadcrumb-item">
                     <span class="bullet bg-gray-500 w-5px h-2px"></span>
                 </li>
-                <li class="breadcrumb-item text-muted">Sub Menu</li>
+                <li class="breadcrumb-item text-muted">Permission</li>
             </ul> 
         </div>
     </div>
@@ -30,7 +30,7 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" id="searchSubMenu" class="form-control form-control-solid w-250px ps-13" placeholder="Search sub menu..." />
+                        <input type="text" id="searchPermission" class="form-control form-control-solid w-250px ps-13" placeholder="Search permission..." />
                     </div>
                 </div>
 
@@ -44,9 +44,9 @@
                             Export
                         </button>
 
-                        <a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubMenuModal">
+                        <a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissionModal">
                             <i class="ki-duotone ki-plus fs-2"></i>
-                            Add Sub Menu
+                            Add Permission
                         </a>
                     </div>
                 </div>
@@ -65,19 +65,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($submenus as $submenu)
+                            @forelse ($permissions as $permission)
                                 <tr>
                                     <td>
-                                        <span class="text-gray-700 fw-bold mb-1 fs-6">{{ $submenu->menu?->name }}</span>
+                                        <span class="text-gray-700 fw-bold mb-1 fs-6">{{ $permission->menu?->name }}</span>
                                     </td>
                                     <td>
-                                        <span class="text-gray-700 fw-bold mb-1 fs-6">{{ $submenu->name }}</span>
+                                        <span class="text-gray-700 fw-bold mb-1 fs-6">{{ $permission->name }}</span>
                                     </td>
                                     <td>
-                                        <span class="text-gray-700 fw-bold mb-1 fs-6">{{ $submenu->position?->name }}</span>
+                                        <span class="text-gray-700 fw-bold mb-1 fs-6">{{ $permission->position?->name }}</span>
                                     </td>
                                     <td>
-                                        <span class="text-gray-700">{{ $submenu->description ?? '-' }}</span>
+                                        <span class="text-gray-700">{{ $permission->description ?? '-' }}</span>
                                     </td>
                                     <td class="text-end">
                                         <a href="#" class="btn btn-info btn-sm" title="Setting" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -86,7 +86,7 @@
                                         </a>
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-5 w-125px py-4" data-kt-menu="true">
                                             <div class="menu-item px-3">
-                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editSubMenuModal{{ $submenu->id }}" class="menu-link px-3 text-warning">
+                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editPermissionModal{{ $permission->id }}" class="menu-link px-3 text-warning">
                                                     <i class="ki-duotone ki-pencil fs-5 me-1 text-warning">
                                                         <span class="path1"></span>
                                                         <span class="path2"></span>
@@ -95,7 +95,7 @@
                                                 </a>
                                             </div>
                                             <div class="menu-item px-3">
-                                                <a href="javascript:void(0);" class="menu-link px-3 text-danger deleteAlert" title="Delete" data-url="{{route('admin.menu.destroy', $submenu->id)}}">
+                                                <a href="javascript:void(0);" class="menu-link px-3 text-danger deleteAlert" title="Delete" data-url="{{route('admin.permission.destroy', $permission->id)}}">
                                                     <i class="ki-duotone ki-trash fs-5 text-danger me-1">
                                                         <span class="path1"></span>
                                                         <span class="path2"></span>
@@ -129,20 +129,20 @@
 </div>
 
 {{-- Add Menu Modal --}}
-<div class="modal fade" id="addSubMenuModal" tabindex="-1" aria-labelledby="addSubMenuModalLabel" aria-hidden="true">
+<div class="modal fade" id="addPermissionModal" tabindex="-1" aria-labelledby="addPermissionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-lg rounded-3">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="addSubMenuModalLabel">
+                <h5 class="modal-title text-white" id="addPermissionModalLabel">
                     <i class="ki-duotone ki-plus fs-2 me-2 text-white">
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </i>
-                    Add Sub Menu
+                    Add Permission
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('admin.sub-menu.store') }}" method="POST">
+            <form action="{{ route('admin.permission.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-4">
@@ -155,7 +155,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="name" class="form-label fw-semibold required">Sub Menu Name</label>
+                        <label for="name" class="form-label fw-semibold required">Permission Name</label>
                         <select id="name" name="name" class="form-select form-select-solid" required>
                             <option value="" disabled selected>Pilih Method</option>
                             @foreach ($methods as $method)
@@ -189,8 +189,8 @@
 </div>
 
 {{-- Edit Employee Type Modals --}}
-@foreach ($submenus as $submenu)
-<div class="modal fade" id="editSubMenuModal{{ $submenu->id }}" tabindex="-1" aria-labelledby="editSubMenuModalLabel{{ $submenu->id }}" aria-hidden="true">
+@foreach ($permissions as $permission)
+<div class="modal fade" id="editPermissionModal{{ $permission->id }}" tabindex="-1" aria-labelledby="editPermissionModalLabel{{ $permission->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-lg rounded-3">
             <div class="modal-header bg-warning">
@@ -199,49 +199,49 @@
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </i>
-                    Update Sub Menu
+                    Update Permission
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('admin.sub-menu.update', $submenu->id) }}" method="POST">
+            <form action="{{ route('admin.permission.update', $permission->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-4">
-                        <label for="menu_edit{{ $submenu->id }}" class="form-label fw-semibold required">Menu</label>
-                        <select id="menu_edit{{ $submenu->id }}" name="menu" class="form-select form-select-solid" required>
+                        <label for="menu_edit{{ $permission->id }}" class="form-label fw-semibold required">Menu</label>
+                        <select id="menu_edit{{ $permission->id }}" name="menu" class="form-select form-select-solid" required>
                             <option value="" disabled selected>Pilih Menu</option>
                             @foreach($menus as $menu)
-                                <option value="{{$menu->id}}" {{ $submenu->menu_id == $menu->id ? 'selected' : '' }}>{{$menu->name}}</option>
+                                <option value="{{$menu->id}}" {{ $permission->menu_id == $menu->id ? 'selected' : '' }}>{{$menu->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="name_edit{{ $submenu->id }}" class="form-label fw-semibold required">Sub Menu Name</label>
-                        <select id="name_edit{{ $submenu->id }}" name="name" class="form-select form-select-solid" required>
+                        <label for="name_edit{{ $permission->id }}" class="form-label fw-semibold required">Permission Name</label>
+                        <select id="name_edit{{ $permission->id }}" name="name" class="form-select form-select-solid" required>
                             <option value="" disabled selected>Pilih Method</option>
                             @foreach ($methods as $method)
-                                <option value="{{ $method->value }}" {{ $submenu->name == $method->value ? 'selected' : '' }}>{{ $method->value }}</option>
+                                <option value="{{ $method->value }}" {{ $permission->name == $method->value ? 'selected' : '' }}>{{ $method->value }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="position_edit{{ $submenu->id }}" class="form-label fw-semibold required">Position Category</label>
-                        <select id="position_edit{{ $submenu->id }}" name="position" class="form-select form-select-solid" required>
+                        <label for="position_edit{{ $permission->id }}" class="form-label fw-semibold required">Position Category</label>
+                        <select id="position_edit{{ $permission->id }}" name="position" class="form-select form-select-solid" required>
                             @foreach($positions as $position)
-                                <option value="{{$position->id}}" {{ $submenu->position_id == $position->id ? 'selected' : '' }}>{{$position->name}}</option>
+                                <option value="{{$position->id}}" {{ $permission->position_id == $position->id ? 'selected' : '' }}>{{$position->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="description_edit{{ $submenu->id }}" class="form-label fw-semibold">Description</label>
-                        <textarea name="description" id="description_edit{{ $submenu->id }}" class="form-control form-control-solid" rows="3" placeholder="Enter description (optional)">{{ $submenu->description }}</textarea>
+                        <label for="description_edit{{ $permission->id }}" class="form-label fw-semibold">Description</label>
+                        <textarea name="description" id="description_edit{{ $permission->id }}" class="form-control form-control-solid" rows="3" placeholder="Enter description (optional)">{{ $permission->description }}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">
                         <i class="ki-duotone ki-check fs-2"></i>
-                        Update Menu
+                        Update Permission
                     </button>
                 </div>
             </form>
@@ -267,7 +267,7 @@
                 allowClear: true,
                 minimumResultsForSearch: 0,
                 width: '100%',
-                dropdownParent: $('#addSubMenuModal'),
+                dropdownParent: $('#addPermissionModal'),
                 escapeMarkup: function(markup) { return markup; },
                 templateResult: function(data) {
                     return data.text;
@@ -288,7 +288,7 @@
                 allowClear: true,
                 minimumResultsForSearch: 0,
                 width: '100%',
-                dropdownParent: $('#addSubMenuModal'),
+                dropdownParent: $('#addPermissionModal'),
                 escapeMarkup: function(markup) { return markup; },
                 templateResult: function(data) {
                     return data.text;
@@ -309,7 +309,7 @@
                 allowClear: true,
                 minimumResultsForSearch: 0,
                 width: '100%',
-                dropdownParent: $('#addSubMenuModal'),
+                dropdownParent: $('#addPermissionModal'),
                 escapeMarkup: function(markup) { return markup; },
                 templateResult: function(data) {
                     return data.text;
@@ -321,14 +321,14 @@
         }
 
         // Initialize Select2 for Edit Modals
-        @foreach ($submenus as $submenu)
-            if ($('#menu_edit{{ $submenu->id }}').length) {
-                $('#menu_edit{{ $submenu->id }}').select2({
+        @foreach ($permissions as $permission)
+            if ($('#menu_edit{{ $permission->id }}').length) {
+                $('#menu_edit{{ $permission->id }}').select2({
                     placeholder: 'Pilih Menu',
                     allowClear: true,
                     minimumResultsForSearch: 0,
                     width: '100%',
-                    dropdownParent: $('#editSubMenuModal{{ $submenu->id }}'),
+                    dropdownParent: $('#editPermissionModal{{ $permission->id }}'),
                     escapeMarkup: function(markup) { return markup; },
                     templateResult: function(data) {
                         return data.text;
@@ -338,13 +338,13 @@
                     }
                 });
             }
-            if ($('#name_edit{{ $submenu->id }}').length) {
-                $('#name_edit{{ $submenu->id }}').select2({
+            if ($('#name_edit{{ $permission->id }}').length) {
+                $('#name_edit{{ $permission->id }}').select2({
                     placeholder: 'Pilih Method',
                     allowClear: true,
                     minimumResultsForSearch: 0,
                     width: '100%',
-                    dropdownParent: $('#editSubMenuModal{{ $submenu->id }}'),
+                    dropdownParent: $('#editPermissionModal{{ $permission->id }}'),
                     escapeMarkup: function(markup) { return markup; },
                     templateResult: function(data) {
                         return data.text;
@@ -354,13 +354,13 @@
                     }
                 });
             }
-            if ($('#position_edit{{ $submenu->id }}').length) {
-                $('#position_edit{{ $submenu->id }}').select2({
+            if ($('#position_edit{{ $permission->id }}').length) {
+                $('#position_edit{{ $permission->id }}').select2({
                     placeholder: 'Pilih Position Category',
                     allowClear: true,
                     minimumResultsForSearch: 0,
                     width: '100%',
-                    dropdownParent: $('#editSubMenuModal{{ $submenu->id }}'),
+                    dropdownParent: $('#editPermissionModal{{ $permission->id }}'),
                     escapeMarkup: function(markup) { return markup; },
                     templateResult: function(data) {
                         return data.text;
@@ -373,7 +373,7 @@
         @endforeach
         // ===== DATATABLE INITIALIZATION =====
         let dataTable = null;
-        const hasData = {{ $submenus->count() > 0 ? 'true' : 'false' }};
+        const hasData = {{ $permissions->count() > 0 ? 'true' : 'false' }};
 
         function initDataTable() {
             const tableElement = $('#kt_table_employee_type');

@@ -38,46 +38,41 @@
                         <div class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-600 menu-state-title-primary nav nav-flush fs-5 fw-semibold"
                             id="kt_landing_menu">
                             <div class="menu-item">
-                                <a class="menu-link nav-link active py-3 px-4 px-xxl-6"
-                                href="#home"
-                                data-kt-scroll-toggle="true"
+                                <a class="menu-link nav-link py-3 px-4 px-xxl-6 {{ request()->is('/') ? 'active' : '' }}"
+                                href="{{ request()->is('/') ? url('/') : url('/') }}"
+                                @if(request()->is('/')) data-kt-scroll-toggle="true" @endif
                                 data-kt-drawer-dismiss="true">Home</a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link nav-link py-3 px-4 px-xxl-6"
-                                href="#how-it-works"
-                                data-kt-scroll-toggle="true"
-                                data-kt-drawer-dismiss="true">How it Works</a>
+                                <a class="menu-link nav-link py-3 px-4 px-xxl-6 {{ request()->routeIs('panduan') ? 'active' : '' }}"
+                                href="{{ route('panduan') }}"
+                                data-kt-drawer-dismiss="true">Panduan</a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link nav-link py-3 px-4 px-xxl-6"
-                                href="#achievements"
-                                data-kt-scroll-toggle="true"
-                                data-kt-drawer-dismiss="true">Achievements</a>
+                                <a class="menu-link nav-link py-3 px-4 px-xxl-6 {{ request()->routeIs('fitur-utama') ? 'active' : '' }}"
+                                href="{{ route('fitur-utama') }}"
+                                data-kt-drawer-dismiss="true">Fitur Utama</a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link nav-link py-3 px-4 px-xxl-6"
-                                href="#team"
-                                data-kt-scroll-toggle="true"
-                                data-kt-drawer-dismiss="true">Team</a>
+                                <a class="menu-link nav-link py-3 px-4 px-xxl-6 {{ request()->routeIs('faq') ? 'active' : '' }}"
+                                href="{{ route('faq') }}"
+                                data-kt-drawer-dismiss="true">FAQ</a>
                             </div>
                             <div class="menu-item">
-                                <a class="menu-link nav-link py-3 px-4 px-xxl-6"
-                                href="#portfolio"
-                                data-kt-scroll-toggle="true"
-                                data-kt-drawer-dismiss="true">Portfolio</a>
+                                <a class="menu-link nav-link py-3 px-4 px-xxl-6 {{ request()->routeIs('kontak-it') ? 'active' : '' }}"
+                                href="{{ route('kontak-it') }}"
+                                data-kt-drawer-dismiss="true">Kontak IT</a>
                             </div>
-                            <div class="menu-item">
-                                <a class="menu-link nav-link py-3 px-4 px-xxl-6"
-                                href="#pricing"
-                                data-kt-scroll-toggle="true"
-                                data-kt-drawer-dismiss="true">Pricing</a>
-                            </div>
+
                         </div>
                     </div>
                 </div>
                 <div class="flex-equal text-end ms-1">
-                    <a href="{{ route('login') }}" class="btn btn-success">Sign In</a>
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-success">Sign In</a>
+                    @endauth
                 </div>
             </div>
         </div>

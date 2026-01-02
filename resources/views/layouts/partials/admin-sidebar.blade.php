@@ -17,7 +17,7 @@
             <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
                 <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
                     <div class="menu-item">
-                        <a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                        <a class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                             <span class="menu-icon">
                                 <i class="ki-duotone ki-element-11 fs-2">
                                     <span class="path1"></span>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="menu-item pt-5">
                         <div class="menu-content">
-                            <span class="menu-heading fw-bold text-uppercase fs-7">Management Task & Project</span>
+                            <span class="menu-heading fw-bold text-uppercase fs-7">Management Fitur</span>
                         </div>
                     </div>
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('admin.projects.*') ? 'here show' : '' }}">
@@ -178,6 +178,46 @@
                             </div>
                         </div>
                     </div>
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('admin.inventory.*') || request()->routeIs('admin.items.*') ? 'here show' : '' }}">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-office-bag fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                    <span class="path4"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">Inventaris</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.items.category.*') ? 'active' : '' }}" href="{{ route('admin.items.category.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Category Item</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.inventory.items.*') ? 'active' : '' }}" href="{{ route('admin.inventory.items.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">List Item</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('admin.inventory.services.*') ? 'active' : '' }}" href="{{ route('admin.inventory.services.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Service Requests</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="menu-item pt-5">
                         <div class="menu-content">
                             <span class="menu-heading fw-bold text-uppercase fs-7">Setting</span>
@@ -197,7 +237,7 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ request()->routeIs('admin.sub-menu.*') ? 'active' : '' }}" href="{{ route('admin.sub-menu.index') }}">
+                        <a class="menu-link {{ request()->routeIs('admin.permission.*') ? 'active' : '' }}" href="{{ route('admin.permission.index') }}">
                             <span class="menu-icon">
                                 <i class="ki-duotone ki-burger-menu-2 fs-2">
                                     <span class="path1"></span>
@@ -212,7 +252,7 @@
                                     <span class="path10"></span>
                                 </i>
                             </span>
-                            <span class="menu-title">Sub Menu</span>
+                            <span class="menu-title">Permission</span>
                         </a>
                     </div>
                 </div>

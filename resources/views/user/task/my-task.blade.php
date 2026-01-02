@@ -269,6 +269,8 @@
         </table>
     </div>
 </div>
+<!-- Spacer to ensure scrolling reaches bottom -->
+<div class="mb-20 pb-20"></div>
 
 {{-- Edit Task Modals --}}
 @foreach ($tasks as $task)

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -14,7 +16,39 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        return view('admin.dashboard');
+        try {
+            $totalUsers = User::count();
+            $totalProjects = Project::count();
+            $totalTasks = Task::count();
+            $activeProjects = Project::where('status', 'in_progress')->count();
+            $completedTasks = Task::where('status', 'completed')->count();
+            $activeTasks = Task::where('status', 'in_progress')->count();
+        } catch (\Exception $e) {
+            // If database tables don't exist or there's an error, set defaults to 0
+            $totalUsers = 0;
+            $totalProjects = 0;
+            $totalTasks = 0;
+            $activeProjects = 0;
+            $completedTasks = 0;
+            $activeTasks = 0;
+        }
+
+        // Get recent activities (Projects and Tasks combined)
+        $recentProjects = Project::with('manager')->latest()->take(5)->get();
+        $recentTasks = Task::with('assignee')->latest()->take(5)->get();
+
+        // Merge and sort
+        $recentActivities = $recentProjects->concat($recentTasks)->sortByDesc('created_at')->take(5);
+
+        return view('admin.dashboard', [
+            'totalUsers' => $totalUsers,
+            'totalProjects' => $totalProjects,
+            'totalTasks' => $totalTasks,
+            'activeProjects' => $activeProjects,
+            'completedTasks' => $completedTasks,
+            'activeTasks' => $activeTasks,
+            'recentActivities' => $recentActivities
+        ]);
     }
 
     /**

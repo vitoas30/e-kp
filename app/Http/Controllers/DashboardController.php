@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
         if (Auth::user()->hasRole('admin')) {
-            return view('admin.dashboard');
+            return redirect()->route('admin.dashboard');
         }
 
         $projects = Project::where('manager_id', Auth::user()->id)->latest()->limit(3)->get();

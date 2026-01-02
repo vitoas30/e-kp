@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SubMenu extends Model
+class Permission extends Model
 {
-    protected $table = 'sub_menus';
+    protected $table = 'permissions';
     
     protected $guarded = [];
 

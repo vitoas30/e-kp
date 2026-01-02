@@ -147,7 +147,7 @@
                                             <span class="path2"></span>
                                         </i>
                                     </span>
-                                    <input type="number" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{ old("phone", $user->phone) }}"/>
+                                    <input type="number" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{ old('phone', $user->phone) }}"/>
                                 </div>
                             </div>
                             <div class="d-flex flex-column mb-8 fv-row">
