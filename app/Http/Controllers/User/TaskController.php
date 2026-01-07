@@ -146,7 +146,6 @@ class TaskController extends Controller
 
         // Update Project Progress
         $this->updateProjectProgress($task->project_id);
-
         return redirect()->route('user.tasks.index', $request->project)->with('success', 'Task created successfully.');
     }
 
@@ -183,7 +182,6 @@ class TaskController extends Controller
 
         // Update Project Progress
         $this->updateProjectProgress($task->project_id);
-
         return redirect()->route('user.tasks.index', $request->project)->with('success', 'Task updated successfully.');
     }
 
@@ -196,7 +194,6 @@ class TaskController extends Controller
 
         // Update Project Progress
         $this->updateProjectProgress($task->project_id);
-
         return redirect()->route('user.tasks.index', $task->project_id)->with('success', 'Project updated successfully.');
     }
 
@@ -208,7 +205,6 @@ class TaskController extends Controller
 
         // Update Project Progress
         $this->updateProjectProgress($idProject);
-
         return redirect()->route('user.tasks.index', $idProject)->with('success', 'Task deleted successfully.');
     }
 }

@@ -47,7 +47,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::post('/attendance/checkin', [App\Http\Controllers\AttendanceController::class, 'store'])->name('attendance.checkin')->middleware('auth');
 Route::post('/attendance/checkout', [App\Http\Controllers\AttendanceController::class, 'update'])->name('attendance.checkout')->middleware('auth');
 Route::post('/attendance/permission', [App\Http\Controllers\AttendanceController::class, 'storePermission'])->name('attendance.permission')->middleware('auth');
-
 // Route::get('/login', [ProfileController::class, 'edit'])->name('profile.edit');
 
 Route::middleware('auth')->prefix('user')->name('user.')->group(function () {

@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "293cfc57927aebe5459e113f4f8e6a33",
+=======
+    "content-hash": "0115dbddccf0cd5bb3f8d9794226947f",
+>>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
     "packages": [
         {
             "name": "brick/math",
@@ -6118,6 +6122,7 @@
             "time": "2025-06-03T18:56:14+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "fly-apps/dockerfile-laravel",
             "version": "1.0.9",
             "source": {
@@ -6186,6 +6191,8 @@
             "time": "2025-08-05T12:40:57+00:00"
         },
         {
+=======
+>>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
             "name": "hamcrest/hamcrest-php",
             "version": "v2.1.1",
             "source": {
