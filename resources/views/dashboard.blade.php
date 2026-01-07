@@ -152,7 +152,6 @@
 							</div>
 							<div class="flex-grow-1">
 								<span class="text-gray-700 fw-semibold fs-8 d-block">Check In</span>
-<<<<<<< HEAD
                                 @if(isset($todayAttendance))
                                     @if(in_array($todayAttendance->status, ['sakit', 'permission', 'wfh', 'leave']))
                                         <span class="text-muted fw-bold fs-3 d-block">-</span>
@@ -185,10 +184,6 @@
                                         <button type="submit" class="btn btn-sm btn-success mt-2">Check In</button>
                                     </form>
                                 @endif
-=======
-								<span class="text-success fw-bold fs-3 d-block">09:58:02</span>
-								<span class="badge badge-light-danger fs-9 fw-semibold px-2 py-1">Terlambat 1 jam 28 menit</span>
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 							</div>
 						</div>
 					</div>
@@ -204,7 +199,6 @@
 							</div>
 							<div class="flex-grow-1">
 								<span class="text-gray-700 fw-semibold fs-8 d-block">Check Out</span>
-<<<<<<< HEAD
                                 @if(isset($todayAttendance) && $todayAttendance->check_out)
                                     <span class="text-warning fw-bold fs-3 d-block">{{ $todayAttendance->check_out }}</span>
                                     <span class="badge badge-light-warning fs-9 fw-semibold px-2 py-1">Completed</span>
@@ -221,10 +215,6 @@
                                     <span class="text-warning fw-bold fs-3 d-block">--:--:--</span>
                                     <span class="text-gray-600 fs-9 fw-semibold">Waiting Check In...</span>
                                 @endif
-=======
-								<span class="text-warning fw-bold fs-3 d-block">Belum check out</span>
-								<span class="text-gray-600 fs-9 fw-semibold">Waiting...</span>
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 							</div>
 						</div>
 					</div>
@@ -235,7 +225,6 @@
 						<span class="path2"></span>
 					</i>
 					<div>
-<<<<<<< HEAD
 						<span class="text-gray-700 fw-semibold fs-8 d-block">Status Kehadiran</span>
 						<span class="text-gray-900 fw-bold fs-6">
                             @if(isset($todayAttendance))
@@ -305,13 +294,6 @@
 				</div>
 			</div>
 			@endif
-=======
-						<span class="text-gray-700 fw-semibold fs-8 d-block">Lokasi</span>
-						<span class="text-gray-900 fw-bold fs-6">DQ Metro</span>
-					</div>
-				</div>
-			</div>
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 		</div>
 		@if($projects->isNotEmpty())
 			<div class="card mb-xl-8 bg-body">
@@ -340,10 +322,7 @@
 									<th class="min-w-120px">Assigned By</th>
 									<th class="min-w-100px">Priority</th>
 									<th class="min-w-100px">Status</th>
-<<<<<<< HEAD
 									<th class="min-w-100px">Progress</th>
-=======
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 									<th class="min-w-100px">Due Date</th>
 									<th class="min-w-100px text-end">Actions</th>
 								</tr>
@@ -394,7 +373,6 @@
 											</span>
 										</td>
 										<td>
-<<<<<<< HEAD
 											@php
 												$tasks = $project->tasks;
 												$totalTasks = $tasks->count();
@@ -438,8 +416,6 @@
 											</div>
 										</td>
 										<td>
-=======
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 											<span class="text-gray-900 fw-bold d-block fs-7">{{ $project->due_date ? \Carbon\Carbon::parse($task->due_date)->format('d M Y') : '-' }}</span>
 											<span class="text-muted fw-semibold d-block fs-8">
 												@php
@@ -508,10 +484,7 @@
 								<th class="min-w-120px">Assigned By</th>
 								<th class="min-w-100px">Priority</th>
 								<th class="min-w-100px">Status</th>
-<<<<<<< HEAD
 								<th class="min-w-100px">Progress</th>
-=======
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 								<th class="min-w-100px">Due Date</th>
 								<th class="min-w-100px text-end">Actions</th>
 							</tr>
@@ -564,7 +537,6 @@
 										</span>
 									</td>
 									<td>
-<<<<<<< HEAD
 										@php
 											$progress = 0;
 											$status = $task->status ?? 'todo';
@@ -613,8 +585,6 @@
                                         </div>
 									</td>
 									<td>
-=======
->>>>>>> 6cc5c70515829a55ce3e5bc35db56011845fa022
 										<span class="text-gray-900 fw-bold d-block fs-7">{{ $task->due_date ? \Carbon\Carbon::parse($task->due_date)->format('d M Y') : '-' }}</span>
 										<span class="text-muted fw-semibold d-block fs-8">
 											@php
